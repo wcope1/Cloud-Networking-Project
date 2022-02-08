@@ -95,3 +95,12 @@ SSH into the control node and follow the steps below:
 - Run the playbook, and navigate to [ELK VM's public IP]:5601/app/kibana to check that the installation worked as expected.
 
 ## Commands to Download and Run the Ansible Containers
+
+### Congifuring the ELK VM
+Once you've configured the VM ELK will run on, add the VM's local IP to the hosts.yml file under "[elk]" - this is important as the YAML file that will configure the VM will pull the specific IP address from hosts.yml
+
+Next, run `ansible-playbook Install-Elk.yml`
+Load the Kibana website listed above from your browser to confirm the deployment worked.
+
+#### Troubleshooting ELK Container
+If Kibana does not load, try running `sysctl -w vm.max_map_count=262144` in your ELK VM as well as checking any relevant firewall rules institued on your virtual network.
