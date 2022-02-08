@@ -1,0 +1,35 @@
+---
+ - name: Configure Docker on Webserver VMs
+   hosts: webservers
+   become: true
+   tasks:
+   - name: Install docker.io (state=present is optional)
+     apt:
+       force_apt_get: yes
+       update_cache: yes
+       name: docker.io
+       state: present
+
+   - name: Install python3-pip module to install docker
+     apt:
+       force_apt_get: yes
+       name: python3-pip
+       state: present
+
+   - name: Install docker
+     pip:
+       name: docker
+       state: present
+
+   - name: install cyberxsecurity/dvwa (present=true)
+     docker_container:
+       name: dvwa
+       image: cyberxsecurity/dvwa
+       state: started
+       published_ports: 80:80
+       restart_policy: always
+
+   - name: Enable docker
+     systemd:
+       name: docker
+       enabled: yes
